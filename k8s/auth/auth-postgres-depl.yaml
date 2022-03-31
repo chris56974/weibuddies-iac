@@ -21,4 +21,7 @@ spec:
             - name: POSTGRES_DB
               value: "auth-database"
             - name: POSTGRES_PASSWORD
-              value: "${POSTGRES_PASSWORD}"
+              valueFrom:
+                secretKeyRef:
+                  name: weibuddies-secrets
+                  key: POSTGRES_PASSWORD

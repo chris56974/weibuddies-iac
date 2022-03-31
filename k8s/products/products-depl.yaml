@@ -22,7 +22,13 @@ spec:
               value: "products-database"
             - name: PGUSER
               value: "products"
-            - name: PGPASSWORD
-              value: "${POSTGRES_PASSWORD}"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: weibuddies-secrets
+                  key: POSTGRES_PASSWORD
             - name: JWT_KEY
-              value: "${JWT_KEY}"
+              valueFrom:
+                secretKeyRef:
+                  name: weibuddies-secrets
+                  key: JWT_KEY

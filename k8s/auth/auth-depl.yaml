@@ -23,11 +23,12 @@ spec:
             - name: PGDATABASE
               value: "auth-database"
             - name: PGPASSWORD
-              value: "${POSTGRES_PASSWORD}"
-            - name: JWT_KEY
-              value: "${JWT_KEY}"
-            - name: FOO
               valueFrom:
                 secretKeyRef:
                   name: weibuddies-secrets
-                  key: FOO
+                  key: POSTGRES_PASSWORD
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: weibuddies-secrets
+                  key: JWT_KEY

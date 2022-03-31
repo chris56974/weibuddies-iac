@@ -21,4 +21,7 @@ spec:
             - name: POSTGRES_USER
               value: "orders"
             - name: POSTGRES_PASSWORD
-              value: "${POSTGRES_PASSWORD}"
+              valueFrom:
+                secretKeyRef:
+                  name: weibuddies-secrets
+                  key: POSTGRES_PASSWORD
