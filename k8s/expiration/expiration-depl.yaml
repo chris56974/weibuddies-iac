@@ -18,3 +18,5 @@ spec:
           env:
             - name: REDIS_HOST
               value: "expiration-redis-cluster-ip"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: kafka-0.kafka-svc.kafka-kraft.svc.cluster.local:9092

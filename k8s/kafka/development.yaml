@@ -76,6 +76,12 @@ spec:
           ports:
             - containerPort: 9092
             - containerPort: 9093
+          readinessProbe:
+            tcpSocket:
+              port: 9092
+            timeoutSeconds: 5
+            periodSeconds: 5
+            initialDelaySeconds: 25
           env:
             - name: REPLICAS
               value: "1"

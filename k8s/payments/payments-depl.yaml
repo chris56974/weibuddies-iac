@@ -37,3 +37,5 @@ spec:
                 secretKeyRef:
                   name: weibuddies-secrets
                   key: STRIPE_KEY
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: kafka-0.kafka-svc.kafka-kraft.svc.cluster.local:9092

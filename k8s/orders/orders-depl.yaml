@@ -32,4 +32,5 @@ spec:
                 secretKeyRef:
                   name: weibuddies-secrets
                   key: JWT_KEY
-
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: kafka-0.kafka-svc.kafka-kraft.svc.cluster.local:9092

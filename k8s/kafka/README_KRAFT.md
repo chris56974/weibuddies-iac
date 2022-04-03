@@ -1,6 +1,8 @@
 # kafka
 
-This readme document is a copy paste of the official kafka/config/krarft/readme.md (with my own personal edits).
+Kafka needs to run as a stateful set because a stateful set maintains a sticky identity for each pod (and each broker needs a unique ID). We don't want to reach for a kafka broker at random, we want to reach for a specific kafka broker. A statelessSet also provides persistence via a persistent volume.
+
+## The kafka/config/kraft/readme.md with my own edits
 
 To bring up a kraft cluster...
 
@@ -17,9 +19,7 @@ To bring up a kraft cluster...
 
 ## Overview
 
-In kraft mode, you have two types of nodes - brokers & controllers. You usually have 3-5 controllers for availability purposes. You designate whether a node is a controller or a broker by setting its `process.roles` property to broker, controller or broker,controller (broker,controller means the node operates as both, aka a combined node). You set this setting in the kafka/config/kraft/server.properties file. Combined nodes are convenient but if they crash as a broker then it can no longer work as a controller.
-
-Every node (broker or controller) has to know who all the controllers are. You do that by enumerating the controllers in the `controller.quorum.voters` key in the same kafka/config/kraft/server.properties file. The "quorum" part refers to how controllers agree with each other ow what the cluster metadata is. An example config for a controller looks like this...
+In kraft mode, you have two types of nodes - controllers & brokers. A broker receives messages from producers and stores them on disk keyed by unique offset. A controller is responsible for managing the state of the cluster (partitions, replicas) and you typically need 3-5 for availability. You must tell each node whether it's a controller, a broker, or both using the process.roles property (kafka/config/kraft/server.properties file). Nodes that are both controllers and brokers are convenient but if they crash on the broker side, then they also crash on the controller side (and you always need a majority of controllers to run for the quorum). The "quorum" part refers to how controllers all agree with each other on what the cluster state/metadata is. Every node (broker or controller) has to know who all the controllers are. You do that by enumerating the controllers in the `controller.quorum.voters` key in the same kafka/config/kraft/server.properties file. An example config might look like this.
 
 ```bash
 process.roles=controller # this is a controller

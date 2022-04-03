@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Grab the first 6 characters from the hostname
-# The hostname will be different for each server in k8s
+# The hostname will be different for each pod in k8s
 NODE_ID=${HOSTNAME:6}
 
 # this is what the broker will use to create server sockets.
@@ -9,6 +9,7 @@ LISTENERS="PLAINTEXT://:9092,CONTROLLER://:9093"
 
 # this is what the clients will use to connect to the brokers
 ADVERTISED_LISTENERS="PLAINTEXT://kafka-$NODE_ID.$SERVICE.$NAMESPACE.svc.cluster.local:9092"
+                    # PLAINTEXT://kafka-0.kafka-svc.kafka-kraft.svc.cluster.local:9092
 
 # Each node needs to know who all the controller nodes are
 # this loop will enumerate all the controllers so I can add it to the server.properties later
@@ -42,6 +43,7 @@ sed -e "s+^node.id=.*+node.id=$NODE_ID+" \
 
 # this step used to be automated but now it's required
 kafka-storage.sh format -t $CLUSTER_ID -c /opt/kafka/config/kraft/server.properties
+
 
 # Run the server
 exec kafka-server-start.sh /opt/kafka/config/kraft/server.properties
